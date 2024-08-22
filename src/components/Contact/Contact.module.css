@@ -1,0 +1,26 @@
+ul{
+  list-style: none;
+  padding: 0;
+}
+.contactWrapper{
+  border: 1px solid black;
+  border-radius: 4px;
+  width: 180px;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+}
+.contactList{}
+.contactItem{
+  font-size: 14px;
+  display: flex;
+  gap: 3px;
+
+  justify-content: flex-start;
+  align-items: center;
+}
+.contactBtn{
+
+}

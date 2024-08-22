@@ -1,0 +1,13 @@
+.optionsList {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  gap: 5px;
+  padding: 0;
+}
+.list{
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  flex-wrap: wrap;
+}
