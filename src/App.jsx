@@ -3,9 +3,12 @@ import Section from "./components/Section/Section.jsx";
 import ContactForm from "./components/ContactForm/ContactForm.jsx"
 import ContactList from "./components/ContactList/ContactList.jsx";
 import SearchBox from "./components/SearchBox/SearchBox.jsx";
-import contacts from "./Contacts.json"
+// import contactsData from "./Contacts.json"
 import { nanoid } from "nanoid";
 import Modal from "./components/Modal/Modal.jsx"
+import { useDispatch, useSelector } from "react-redux";
+import { addContact, deleteContact } from "./redux/contacts/contactsReducer.js";
+import { setFilterValue } from "./redux/filter/filterReducer.js";
 
 
 
@@ -17,27 +20,36 @@ const App = () => {
 	const onCloseModal = () => {
 		setModal(false);
 	};
-	const [users, setUsers] = useState(() => {
-		const contactData = localStorage.getItem("contactsData");
-		return JSON.parse(contactData) ?? contacts;
-		
-		
-	})
-	const [searchedContact, setSearchedContact] = useState("")
+	const dispatch = useDispatch()
+
+	const users = useSelector(
+		(state) => state.contacts.contacts
+		// const [users, setUsers] = useState(() => {
+		// 	const contactData = localStorage.getItem("contactsData");
+		// 	return JSON.parse(contactData) ?? contacts;
+		// })
+	);
+
+	const searchedContact = useSelector(
+		(state) => state.filter.filterValue
+	);
+
+
+	
+	
 	const onAddContact = (contact) => {
 		const finalContact = {
 			...contact,
 			id: nanoid(),
 		}
-
-		setUsers((prevContacts)=> [finalContact, ...prevContacts,]);
-		// console.log(finalContact, contact);
+		dispatch(addContact(finalContact))
+		// setUsers((prevContacts)=> [finalContact, ...prevContacts,]);
+		
 	}
 
 
 	const onDeleteContact = (contactId) => {
-		setUsers((prevContacts) => prevContacts.filter((item) => item.id !== contactId));
-		
+		dispatch(deleteContact(contactId));
 	}
 
 	useEffect(() => {
@@ -45,7 +57,8 @@ const App = () => {
 	},[users])
 	const handleSearch = (event) => {
 		const value = event.target.value;
-		setSearchedContact(value)
+		dispatch(setFilterValue(value))
+		// setSearchedContact(value)
 	}
 	const filteredContacts = users.filter((contact)=> contact.name.toLowerCase().includes(searchedContact.toLowerCase()))
 	return (
